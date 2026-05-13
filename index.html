@@ -3,106 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Mike's Transport Service</title>
+<title>Dispatch Portal</title>
 
 <style>
-
   body {
-    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 12px;
+    font-family: Arial, sans-serif;
     background: #f5f5f5;
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
   }
 
   .container {
-    max-width: 650px;
-    margin: auto;
-  }
-
-  .header {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    width: 90%;
+    max-width: 400px;
     text-align: center;
-    margin-bottom: 20px;
   }
 
-  .header h1 {
-    margin: 0;
-    font-size: 30px;
+  h1 {
+    margin-bottom: 10px;
+    font-size: 24px;
   }
 
-  .header h2 {
-    margin-top: 5px;
-    font-size: 18px;
+  p {
     color: #666;
-    font-weight: normal;
+    margin-bottom: 25px;
+    font-size: 14px;
   }
 
-  .section-title {
-    margin-top: 20px;
-    margin-bottom: 8px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  label {
-    display: block;
-    margin-top: 16px;
-    margin-bottom: 6px;
-    font-size: 17px;
-    font-weight: bold;
-  }
-
-  input,
-  textarea,
-  select,
   button {
     width: 100%;
     padding: 16px;
-    font-size: 18px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-  }
-
-  textarea {
-    min-height: 110px;
-    resize: vertical;
-  }
-
-  input:focus,
-  textarea:focus,
-  select:focus {
-    outline: 2px solid #111;
-  }
-
-  button {
-    margin-top: 12px;
-    background: #111;
-    color: white;
+    margin: 10px 0;
+    font-size: 16px;
     font-weight: bold;
     border: none;
+    border-radius: 10px;
     cursor: pointer;
+    background: #111;
+    color: white;
   }
 
   button:active {
     transform: scale(0.98);
   }
 
-  @media (max-width: 600px) {
-
-    .header h1 {
-      font-size: 24px;
-    }
-
-    input,
-    textarea,
-    select,
-    button {
-      font-size: 18px;
-      padding: 18px;
-    }
+  .android {
+    background: #1a73e8;
   }
 
+  .iphone {
+    background: #111;
+  }
 </style>
 </head>
 
@@ -110,561 +68,25 @@
 
 <div class="container">
 
-  <!-- HEADER -->
-  <div class="header">
-    <h1>Mike's Transport Service</h1>
-    <h2>Dispatcher Dashboard</h2>
-  </div>
+  <h1>Dispatcher Portal</h1>
+  <p>Select your device dashboard</p>
 
-  <!-- RIDE DETAILS -->
-  <div class="section-title">
-    Ride Details
-  </div>
-
-  <label for="name">
-    Customer Name
-  </label>
-
-  <input
-    id="name"
-    placeholder="Full Name"
-  >
-
-  <label for="flight">
-    Flight Number
-  </label>
-
-  <input
-    id="flight"
-    placeholder="Flight Number"
-  >
-
-  <label for="phone">
-    Customer Phone
-  </label>
-
-  <input
-    id="phone"
-    type="tel"
-    placeholder="Phone Number"
-  >
-
-  <label for="pickup">
-    Pickup Address
-  </label>
-
-  <input
-    id="pickup"
-    placeholder="Pickup Address"
-  >
-
-  <label for="dropoff">
-    Drop-off Address
-  </label>
-
-  <input
-    id="dropoff"
-    placeholder="Drop-off Address"
-  >
-
-  <label for="date">
-    Date
-  </label>
-
-  <input
-    id="date"
-    type="date"
-  >
-
-  <label for="time">
-    Time
-  </label>
-
-  <input
-    id="time"
-    type="time"
-  >
-
-  <label for="comments">
-    Comments
-  </label>
-
-  <textarea
-    id="comments"
-    maxlength="300"
-    placeholder="Comments (max 300 characters)"
-  ></textarea>
-
-  <!-- DRIVER -->
-  <div class="section-title">
-    Assign Driver
-  </div>
-
-  <select id="driver">
-
-    <option value="">
-      Select Driver
-    </option>
-
-    <option value="Mike Owner|5712765400">
-      Mike (Owner)
-    </option>
-
-    <option value="Taylor Driver|4406548497">
-      Taylor Driver
-    </option>
-
-    <option value="Marcus Driver|9126436340">
-      Marcus Driver
-    </option>
- 
-    <option value="Bill Driver|7049687843">
-      Bill Driver
-    </option>
- 
-<option value="Rod Driver|923417484">
-      Rod Driver
-    </option>
-
-  </select>
-
-  <!-- ACTIONS -->
-  <div class="section-title">
-    Dispatcher Actions
-  </div>
-
-  <button onclick="downloadICS()">
-    📅 Add to Calendar
+  <button class="android"
+    onclick="openDashboard('dispatch/DispatcherDashboardAndroid.html')">
+    Android Dispatcher Dashboard
   </button>
 
-  <button onclick="downloadVCF()">
-    👤 Save Contact
-  </button>
-
-  <button onclick="sendConfirmation()">
-    📩 Send Customer Confirmation
-  </button>
-
-  <button onclick="assignDriver()">
-    🚗 Assign Driver
-  </button>
-
-  <button onclick="callDriver()">
-    📞 Call Driver
-  </button>
-
-  <button onclick="callCustomer()">
-    📱 Call Customer
-  </button>
-
-  <button onclick="openWaze()">
-    🚗 Open Pickup in Waze
-  </button>
-
-  <button onclick="dispatchAll()">
-    🚀 Dispatch All
+  <button class="iphone"
+    onclick="openDashboard('dispatch/DispatcheriPhone.html')">
+    iPhone Dispatcher Dashboard
   </button>
 
 </div>
 
 <script>
-
-// ======================
-// IMPORT RIDE
-// ======================
-function importRide() {
-
-  const params =
-    new URLSearchParams(window.location.search);
-
-  document.getElementById("name").value =
-    params.get("name") || "";
-
-  document.getElementById("flight").value =
-    params.get("flight") || "";
-
-  document.getElementById("phone").value =
-    params.get("phone") || "";
-
-  document.getElementById("pickup").value =
-    params.get("pickup") || "";
-
-  document.getElementById("dropoff").value =
-    params.get("dropoff") || "";
-
-  document.getElementById("date").value =
-    params.get("date") || "";
-
-  document.getElementById("time").value =
-    params.get("time") || "";
-
-  document.getElementById("comments").value =
-    params.get("comments") || "";
+function openDashboard(page) {
+  window.location.href = page;
 }
-
-window.onload = importRide;
-
-
-// ======================
-// VALIDATION
-// ======================
-function requireFields(fields) {
-
-  for (let field of fields) {
-
-    const value =
-      document.getElementById(field)
-      .value
-      .trim();
-
-    if (!value) {
-
-      alert(
-        "Missing field: " + field
-      );
-
-      return false;
-    }
-  }
-
-  return true;
-}
-
-
-// ======================
-// FORMAT ICS DATE
-// ======================
-function formatICSDate(date, time) {
-
-  const d = new Date(`${date}T${time}`);
-
-  const pad = n =>
-    n.toString().padStart(2, "0");
-
-  return (
-    d.getFullYear() +
-    pad(d.getMonth() + 1) +
-    pad(d.getDate()) + "T" +
-    pad(d.getHours()) +
-    pad(d.getMinutes()) +
-    "00"
-  );
-}
-
-
-// ======================
-// CLEAN ICS MEMORY
-// ======================
-let currentICSUrl = null;
-
-
-// ======================
-// DOWNLOAD ICS
-// ======================
-function downloadICS() {
-
-  if (!requireFields([
-    "name",
-    "date",
-    "time"
-  ])) return;
-
-  const name =
-    document.getElementById("name").value;
-
-  const flight =
-    document.getElementById("flight").value;
-
-  const phone =
-    document.getElementById("phone").value;
-
-  const pickup =
-    document.getElementById("pickup").value;
-
-  const dropoff =
-    document.getElementById("dropoff").value;
-
-  const date =
-    document.getElementById("date").value;
-
-  const time =
-    document.getElementById("time").value;
-
-  const start =
-    formatICSDate(date, time);
-
-  // REMOVE OLD FILE URL
-  if (currentICSUrl) {
-    URL.revokeObjectURL(currentICSUrl);
-  }
-
-  const ics = `BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-SUMMARY:Ride for ${name}
-DTSTART:${start}
-DESCRIPTION:Flight: ${flight}\\nPickup: ${pickup}\\nDrop-off: ${dropoff}\\nPhone: ${phone}
-END:VEVENT
-END:VCALENDAR`;
-
-  const blob = new Blob(
-    [ics],
-    { type: "text/calendar;charset=utf-8;" }
-  );
-
-  currentICSUrl =
-    URL.createObjectURL(blob);
-
-  const link =
-    document.createElement("a");
-
-  link.href = currentICSUrl;
-
-  const safeName =
-    name.replace(/\s+/g, "_");
-
-  link.download =
-    `${safeName}_${date}_${time}.ics`;
-
-  document.body.appendChild(link);
-
-  link.click();
-
-  document.body.removeChild(link);
-}
-
-
-// ======================
-// DOWNLOAD VCF
-// ======================
-function downloadVCF() {
-
-  if (!requireFields([
-    "name",
-    "phone"
-  ])) return;
-
-  const name =
-    document.getElementById("name").value;
-
-  const phone =
-    document.getElementById("phone").value;
-
-  const vcf = `BEGIN:VCARD
-VERSION:3.0
-FN:${name}
-TEL:${phone}
-END:VCARD`;
-
-  const blob = new Blob(
-    [vcf],
-    { type: "text/vcard" }
-  );
-
-  const link =
-    document.createElement("a");
-
-  link.href =
-    URL.createObjectURL(blob);
-
-  link.download =
-    `${name.replace(/\s+/g, "_")}.vcf`;
-
-  link.click();
-}
-
-
-// ======================
-// CUSTOMER CONFIRMATION
-// ======================
-function sendConfirmation() {
-
-  if (!requireFields([
-    "name",
-    "phone"
-  ])) return;
-
-  const name =
-    document.getElementById("name").value;
-
-  const flight =
-    document.getElementById("flight").value;
-
-  const phone =
-    document.getElementById("phone").value;
-
-  const pickup =
-    document.getElementById("pickup").value;
-
-  const dropoff =
-    document.getElementById("dropoff").value;
-
-  const date =
-    document.getElementById("date").value;
-
-  const time =
-    document.getElementById("time").value;
-
-  const msg = `Hi ${name},
-
-Your ride with Mike's Transport Service is confirmed.
-
-Flight: ${flight || "N/A"}
-
-Pickup: ${pickup}
-
-Drop-off: ${dropoff}
-
-Date: ${date}
-
-Time: ${time}
-
-Thank you for choosing Mike's Transport Service!`;
-
-  window.location.href =
-    `sms:${phone}?body=${encodeURIComponent(msg)}`;
-}
-
-
-// ======================
-// ASSIGN DRIVER
-// ======================
-function assignDriver() {
-
-  const driver =
-    document.getElementById("driver").value;
-
-  if (!driver) {
-    alert("Select a driver first");
-    return;
-  }
-
-  const [driverName, driverPhone] =
-    driver.split("|");
-
-  const customer =
-    document.getElementById("name").value;
-
-  const flight =
-    document.getElementById("flight").value;
-
-  const pickup =
-    document.getElementById("pickup").value;
-
-  const dropoff =
-    document.getElementById("dropoff").value;
-
-  const date =
-    document.getElementById("date").value;
-
-  const time =
-    document.getElementById("time").value;
-
-  const comments =
-    document.getElementById("comments").value;
-
-  const msg = `NEW DISPATCH
-
-Driver: ${driverName}
-
-Customer: ${customer}
-
-Flight: ${flight || "N/A"}
-
-Pickup: ${pickup}
-
-Drop-off: ${dropoff}
-
-Date: ${date}
-
-Time: ${time}
-
-Comments: ${comments || "None"}`;
-
-  window.location.href =
-    `sms:${driverPhone}?body=${encodeURIComponent(msg)}`;
-}
-
-
-// ======================
-// CALL DRIVER
-// ======================
-function callDriver() {
-
-  const driver =
-    document.getElementById("driver").value;
-
-  if (!driver) {
-    alert("Select a driver");
-    return;
-  }
-
-  const phone =
-    driver.split("|")[1];
-
-  window.location.href =
-    `tel:${phone}`;
-}
-
-
-// ======================
-// CALL CUSTOMER
-// ======================
-function callCustomer() {
-
-  const phone =
-    document.getElementById("phone").value;
-
-  if (!phone) {
-    alert("Missing customer phone number");
-    return;
-  }
-
-  window.location.href =
-    `tel:${phone}`;
-}
-
-
-// ======================
-// OPEN WAZE
-// ======================
-function openWaze() {
-
-  const pickup =
-    document.getElementById("pickup").value;
-
-  if (!pickup) {
-    alert("Missing pickup address");
-    return;
-  }
-
-  const wazeURL =
-    `https://waze.com/ul?q=${encodeURIComponent(pickup)}&navigate=yes`;
-
-  window.open(
-    wazeURL,
-    "_blank"
-  );
-}
-
-
-// ======================
-// DISPATCH ALL
-// ======================
-function dispatchAll() {
-
-  if (!requireFields([
-    "name",
-    "phone"
-  ])) return;
-
-  downloadICS();
-
-  downloadVCF();
-
-  sendConfirmation();
-}
-
 </script>
 
 </body>

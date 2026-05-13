@@ -604,8 +604,18 @@ STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR`;
 
-  const encodedICS =
-    encodeURIComponent(ics);
+  // CREATE REAL FILE
+  const blob =
+    new Blob(
+      [ics],
+      {
+        type:
+        "text/calendar;charset=utf-8"
+      }
+    );
+
+  const fileURL =
+    URL.createObjectURL(blob);
 
   const fileName =
     `${safeFileName(name)}-${date}-${time}.ics`;
@@ -614,16 +624,24 @@ END:VCALENDAR`;
     document.createElement("a");
 
   link.href =
-    `data:text/calendar;charset=utf8,${encodedICS}`;
+    fileURL;
 
   link.download =
     fileName;
 
+  // REQUIRED FOR CHROME DOWNLOADS
   document.body.appendChild(link);
 
   link.click();
 
   document.body.removeChild(link);
+
+  // CLEAN MEMORY
+  setTimeout(() => {
+
+    URL.revokeObjectURL(fileURL);
+
+  }, 3000);
 
 }
 

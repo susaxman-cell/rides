@@ -533,27 +533,36 @@ function downloadICS() {
   // ======================
   if (isiPhone) {
 
-    const googleURL =
-      `https://calendar.google.com/calendar/render?action=TEMPLATE` +
-      `&text=${encodeURIComponent(`Ride for ${name}`)}` +
-      `&dates=${startGoogle}/${endGoogle}` +
-      `&location=${encodeURIComponent(pickup)}` +
-      `&details=${encodeURIComponent(
-        `Flight: ${flight || "N/A"}\n` +
-        `Pickup: ${pickup}\n` +
-        `Drop-off: ${dropoff}\n` +
-        `Phone: ${phone}\n` +
-        `Comments: ${comments || "None"}`
-      )}`;
+  const googleURL =
+    `https://calendar.google.com/calendar/render?action=TEMPLATE` +
+    `&text=${encodeURIComponent(`Ride for ${name}`)}` +
+    `&dates=${startGoogle}/${endGoogle}` +
+    `&location=${encodeURIComponent(pickup)}` +
+    `&details=${encodeURIComponent(
+      `Flight: ${flight || "N/A"}\n` +
+      `Pickup: ${pickup}\n` +
+      `Drop-off: ${dropoff}\n` +
+      `Phone: ${phone}\n` +
+      `Comments: ${comments || "None"}`
+    )}`;
 
+  // OPEN GOOGLE CALENDAR
+  const newTab =
     window.open(
       googleURL,
       "_blank"
     );
 
-    return;
+  // RETURN FOCUS TO DASHBOARD
+  setTimeout(() => {
 
-  }
+    window.focus();
+
+  }, 1500);
+
+  return;
+
+}
 
   // ======================
   // NON-IPHONE = DOWNLOAD ICS

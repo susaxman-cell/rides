@@ -499,18 +499,87 @@ function downloadICS() {
       60 * 60 * 1000
     );
 
-  const start =
-    formatICSDate(date, time);
+  // FORMAT FOR GOOGLE CALENDAR
+  const formatGoogleDate = (d) => {
 
-  const end =
-    formatICSDate(
-      endDate
-        .toISOString()
-        .split("T")[0],
-      endDate
-        .toTimeString()
-        .slice(0,5)
+    const pad = n =>
+      n.toString().padStart(2, "0");
+
+    return (
+      d.getFullYear() +
+      pad(d.getMonth() + 1) +
+      pad(d.getDate()) + "T" +
+      pad(d.getHours()) +
+      pad(d.getMinutes()) +
+      "00"
     );
+
+  };
+
+  const startGoogle =
+    formatGoogleDate(startDate);
+
+  const endGoogle =
+    formatGoogleDate(endDate);
+
+  // DETECT IPHONE/IPAD
+  const isiPhone =
+    /iPhone|iPad|iPod/i.test(
+      navigator.userAgent
+    );
+
+  // ======================
+  // IPHONE = OPEN GOOGLE CALENDAR
+  // ======================
+  if (isiPhone) {
+
+    const googleURL =
+      `https://calendar.google.com/calendar/render?action=TEMPLATE` +
+      `&text=${encodeURIComponent(`Ride for ${name}`)}` +
+      `&dates=${startGoogle}/${endGoogle}` +
+      `&location=${encodeURIComponent(pickup)}` +
+      `&details=${encodeURIComponent(
+        `Flight: ${flight || "N/A"}\n` +
+        `Pickup: ${pickup}\n` +
+        `Drop-off: ${dropoff}\n` +
+        `Phone: ${phone}\n` +
+        `Comments: ${comments || "None"}`
+      )}`;
+
+    window.open(
+      googleURL,
+      "_blank"
+    );
+
+    return;
+
+  }
+
+  // ======================
+  // NON-IPHONE = DOWNLOAD ICS
+  // ======================
+
+  const formatICSDate = (d) => {
+
+    const pad = n =>
+      n.toString().padStart(2, "0");
+
+    return (
+      d.getFullYear() +
+      pad(d.getMonth() + 1) +
+      pad(d.getDate()) + "T" +
+      pad(d.getHours()) +
+      pad(d.getMinutes()) +
+      "00"
+    );
+
+  };
+
+  const startICS =
+    formatICSDate(startDate);
+
+  const endICS =
+    formatICSDate(endDate);
 
   const ics =
 `BEGIN:VCALENDAR
@@ -518,15 +587,14 @@ VERSION:2.0
 CALSCALE:GREGORIAN
 BEGIN:VEVENT
 SUMMARY:Ride for ${name}
-DTSTART:${start}
-DTEND:${end}
+DTSTART:${startICS}
+DTEND:${endICS}
 LOCATION:${pickup}
 DESCRIPTION:Flight: ${flight || "N/A"}\\nPickup: ${pickup}\\nDrop-off: ${dropoff}\\nPhone: ${phone}\\nComments: ${comments || "None"}
 STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR`;
 
-  // FIX FOR IPHONE SAFARI
   const encodedICS =
     encodeURIComponent(ics);
 

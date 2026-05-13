@@ -1,47 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
-
-<meta
-  name="format-detection"
-  content="telephone=no"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Mike's Transport Service</title>
 
 <style>
 
-  * {
-    box-sizing: border-box;
-  }
-
   body {
-    margin: 0;
-    padding: 14px;
-    background: #f5f5f5;
     font-family: Arial, sans-serif;
-    color: #111;
+    margin: 0;
+    padding: 12px;
+    background: #f5f5f5;
   }
 
   .container {
-    max-width: 700px;
+    max-width: 650px;
     margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
   }
 
   .header {
     text-align: center;
-    margin-bottom: 22px;
+    margin-bottom: 20px;
   }
 
   .header h1 {
@@ -50,26 +31,24 @@
   }
 
   .header h2 {
-    margin-top: 6px;
-    color: #666;
+    margin-top: 5px;
     font-size: 18px;
+    color: #666;
     font-weight: normal;
   }
 
   .section-title {
-    margin-top: 28px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 8px;
     font-size: 18px;
     font-weight: bold;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 6px;
   }
 
   label {
     display: block;
     margin-top: 16px;
     margin-bottom: 6px;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
   }
 
@@ -79,10 +58,10 @@
   button {
     width: 100%;
     padding: 16px;
-    font-size: 17px;
-    border-radius: 12px;
+    font-size: 18px;
+    border-radius: 10px;
     border: 1px solid #ccc;
-    background: white;
+    box-sizing: border-box;
   }
 
   textarea {
@@ -94,48 +73,25 @@
   textarea:focus,
   select:focus {
     outline: 2px solid #111;
-    border-color: #111;
   }
 
   button {
-    margin-top: 14px;
+    margin-top: 12px;
     background: #111;
     color: white;
     font-weight: bold;
     border: none;
     cursor: pointer;
-    transition: 0.2s;
-  }
-
-  button:hover {
-    opacity: 0.92;
   }
 
   button:active {
     transform: scale(0.98);
   }
 
-  .footer-space {
-    height: 20px;
-  }
-
   @media (max-width: 600px) {
-
-    body {
-      padding: 10px;
-    }
-
-    .container {
-      padding: 16px;
-      border-radius: 12px;
-    }
 
     .header h1 {
       font-size: 24px;
-    }
-
-    .header h2 {
-      font-size: 16px;
     }
 
     input,
@@ -145,7 +101,6 @@
       font-size: 18px;
       padding: 18px;
     }
-
   }
 
 </style>
@@ -157,15 +112,8 @@
 
   <!-- HEADER -->
   <div class="header">
-
-    <h1>
-      Mike's Transport Service
-    </h1>
-
-    <h2>
-      Dispatcher Dashboard
-    </h2>
-
+    <h1>Mike's Transport Service</h1>
+    <h2>Dispatcher Dashboard</h2>
   </div>
 
   <!-- RIDE DETAILS -->
@@ -180,7 +128,6 @@
   <input
     id="name"
     placeholder="Full Name"
-    autocomplete="name"
   >
 
   <label for="flight">
@@ -199,9 +146,7 @@
   <input
     id="phone"
     type="tel"
-    inputmode="tel"
     placeholder="Phone Number"
-    autocomplete="tel"
   >
 
   <label for="pickup">
@@ -272,12 +217,12 @@
     <option value="Marcus Driver|9126436340">
       Marcus Driver
     </option>
-
+ 
     <option value="Bill Driver|7049687843">
       Bill Driver
     </option>
-
-    <option value="Rod Driver|923417484">
+ 
+<option value="Rod Driver|923417484">
       Rod Driver
     </option>
 
@@ -320,48 +265,41 @@
     🚀 Dispatch All
   </button>
 
-  <div class="footer-space"></div>
-
 </div>
 
 <script>
 
 // ======================
-// IMPORT RIDE FROM URL
+// IMPORT RIDE
 // ======================
 function importRide() {
 
   const params =
-    new URLSearchParams(
-      window.location.search
-    );
+    new URLSearchParams(window.location.search);
 
-  const fields = [
-    "name",
-    "flight",
-    "phone",
-    "pickup",
-    "dropoff",
-    "date",
-    "time",
-    "comments"
-  ];
+  document.getElementById("name").value =
+    params.get("name") || "";
 
-  fields.forEach(field => {
+  document.getElementById("flight").value =
+    params.get("flight") || "";
 
-    const value =
-      params.get(field);
+  document.getElementById("phone").value =
+    params.get("phone") || "";
 
-    if (value) {
+  document.getElementById("pickup").value =
+    params.get("pickup") || "";
 
-      document
-        .getElementById(field)
-        .value = value;
+  document.getElementById("dropoff").value =
+    params.get("dropoff") || "";
 
-    }
+  document.getElementById("date").value =
+    params.get("date") || "";
 
-  });
+  document.getElementById("time").value =
+    params.get("time") || "";
 
+  document.getElementById("comments").value =
+    params.get("comments") || "";
 }
 
 window.onload = importRide;
@@ -375,8 +313,7 @@ function requireFields(fields) {
   for (let field of fields) {
 
     const value =
-      document
-      .getElementById(field)
+      document.getElementById(field)
       .value
       .trim();
 
@@ -387,25 +324,10 @@ function requireFields(fields) {
       );
 
       return false;
-
     }
-
   }
 
   return true;
-
-}
-
-
-// ======================
-// SAFE FILE NAME
-// ======================
-function safeFileName(text) {
-
-  return text
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "_");
-
 }
 
 
@@ -414,8 +336,7 @@ function safeFileName(text) {
 // ======================
 function formatICSDate(date, time) {
 
-  const d =
-    new Date(`${date}T${time}`);
+  const d = new Date(`${date}T${time}`);
 
   const pad = n =>
     n.toString().padStart(2, "0");
@@ -428,12 +349,17 @@ function formatICSDate(date, time) {
     pad(d.getMinutes()) +
     "00"
   );
-
 }
 
 
 // ======================
-// ADD TO CALENDAR
+// CLEAN ICS MEMORY
+// ======================
+let currentICSUrl = null;
+
+
+// ======================
+// DOWNLOAD ICS
 // ======================
 function downloadICS() {
 
@@ -444,210 +370,72 @@ function downloadICS() {
   ])) return;
 
   const name =
-    document
-      .getElementById("name")
-      .value
-      .trim();
+    document.getElementById("name").value;
 
   const flight =
-    document
-      .getElementById("flight")
-      .value
-      .trim();
+    document.getElementById("flight").value;
 
   const phone =
-    document
-      .getElementById("phone")
-      .value
-      .trim();
+    document.getElementById("phone").value;
 
   const pickup =
-    document
-      .getElementById("pickup")
-      .value
-      .trim();
+    document.getElementById("pickup").value;
 
   const dropoff =
-    document
-      .getElementById("dropoff")
-      .value
-      .trim();
-
-  const comments =
-    document
-      .getElementById("comments")
-      .value
-      .trim();
+    document.getElementById("dropoff").value;
 
   const date =
-    document
-      .getElementById("date")
-      .value;
+    document.getElementById("date").value;
 
   const time =
-    document
-      .getElementById("time")
-      .value;
+    document.getElementById("time").value;
 
-  const startDate =
-    new Date(`${date}T${time}`);
+  const start =
+    formatICSDate(date, time);
 
-  // 1 HOUR EVENT
-  const endDate =
-    new Date(
-      startDate.getTime() +
-      60 * 60 * 1000
-    );
+  // REMOVE OLD FILE URL
+  if (currentICSUrl) {
+    URL.revokeObjectURL(currentICSUrl);
+  }
 
-  // FORMAT FOR GOOGLE CALENDAR
-  const formatGoogleDate = (d) => {
-
-    const pad = n =>
-      n.toString().padStart(2, "0");
-
-    return (
-      d.getFullYear() +
-      pad(d.getMonth() + 1) +
-      pad(d.getDate()) + "T" +
-      pad(d.getHours()) +
-      pad(d.getMinutes()) +
-      "00"
-    );
-
-  };
-
-  const startGoogle =
-    formatGoogleDate(startDate);
-
-  const endGoogle =
-    formatGoogleDate(endDate);
-
-  // DETECT IPHONE/IPAD
-  const isiPhone =
-    /iPhone|iPad|iPod/i.test(
-      navigator.userAgent
-    );
-
-  // ======================
-  // IPHONE = OPEN GOOGLE CALENDAR
-  // ======================
-  if (isiPhone) {
-
-  const googleURL =
-    `https://calendar.google.com/calendar/render?action=TEMPLATE` +
-    `&text=${encodeURIComponent(`Ride for ${name}`)}` +
-    `&dates=${startGoogle}/${endGoogle}` +
-    `&location=${encodeURIComponent(pickup)}` +
-    `&details=${encodeURIComponent(
-      `Flight: ${flight || "N/A"}\n` +
-      `Pickup: ${pickup}\n` +
-      `Drop-off: ${dropoff}\n` +
-      `Phone: ${phone}\n` +
-      `Comments: ${comments || "None"}`
-    )}`;
-
-  // OPEN GOOGLE CALENDAR
-  const newTab =
-    window.open(
-      googleURL,
-      "_blank"
-    );
-
-  // RETURN FOCUS TO DASHBOARD
-  setTimeout(() => {
-
-    window.focus();
-
-  }, 1500);
-
-  return;
-
-}
-
-  // ======================
-  // NON-IPHONE = DOWNLOAD ICS
-  // ======================
-
-  const formatICSDate = (d) => {
-
-    const pad = n =>
-      n.toString().padStart(2, "0");
-
-    return (
-      d.getFullYear() +
-      pad(d.getMonth() + 1) +
-      pad(d.getDate()) + "T" +
-      pad(d.getHours()) +
-      pad(d.getMinutes()) +
-      "00"
-    );
-
-  };
-
-  const startICS =
-    formatICSDate(startDate);
-
-  const endICS =
-    formatICSDate(endDate);
-
-  const ics =
-`BEGIN:VCALENDAR
+  const ics = `BEGIN:VCALENDAR
 VERSION:2.0
-CALSCALE:GREGORIAN
 BEGIN:VEVENT
 SUMMARY:Ride for ${name}
-DTSTART:${startICS}
-DTEND:${endICS}
-LOCATION:${pickup}
-DESCRIPTION:Flight: ${flight || "N/A"}\\nPickup: ${pickup}\\nDrop-off: ${dropoff}\\nPhone: ${phone}\\nComments: ${comments || "None"}
-STATUS:CONFIRMED
+DTSTART:${start}
+DESCRIPTION:Flight: ${flight}\\nPickup: ${pickup}\\nDrop-off: ${dropoff}\\nPhone: ${phone}
 END:VEVENT
 END:VCALENDAR`;
 
-  // CREATE REAL FILE
-  const blob =
-    new Blob(
-      [ics],
-      {
-        type:
-        "text/calendar;charset=utf-8"
-      }
-    );
+  const blob = new Blob(
+    [ics],
+    { type: "text/calendar;charset=utf-8;" }
+  );
 
-  const fileURL =
+  currentICSUrl =
     URL.createObjectURL(blob);
-
-  const fileName =
-    `${safeFileName(name)}-${date}-${time}.ics`;
 
   const link =
     document.createElement("a");
 
-  link.href =
-    fileURL;
+  link.href = currentICSUrl;
+
+  const safeName =
+    name.replace(/\s+/g, "_");
 
   link.download =
-    fileName;
+    `${safeName}_${date}_${time}.ics`;
 
-  // REQUIRED FOR CHROME DOWNLOADS
   document.body.appendChild(link);
 
   link.click();
 
   document.body.removeChild(link);
-
-  // CLEAN MEMORY
-  setTimeout(() => {
-
-    URL.revokeObjectURL(fileURL);
-
-  }, 3000);
-
 }
 
 
 // ======================
-// SAVE CONTACT
+// DOWNLOAD VCF
 // ======================
 function downloadVCF() {
 
@@ -657,47 +445,37 @@ function downloadVCF() {
   ])) return;
 
   const name =
-    document
-      .getElementById("name")
-      .value
-      .trim();
+    document.getElementById("name").value;
 
   const phone =
-    document
-      .getElementById("phone")
-      .value
-      .trim();
+    document.getElementById("phone").value;
 
-  const vcf =
-`BEGIN:VCARD
+  const vcf = `BEGIN:VCARD
 VERSION:3.0
 FN:${name}
-TEL;TYPE=CELL:${phone}
+TEL:${phone}
 END:VCARD`;
 
-  const encodedVCF =
-    encodeURIComponent(vcf);
+  const blob = new Blob(
+    [vcf],
+    { type: "text/vcard" }
+  );
 
   const link =
     document.createElement("a");
 
   link.href =
-    `data:text/vcard;charset=utf8,${encodedVCF}`;
+    URL.createObjectURL(blob);
 
   link.download =
-    `${safeFileName(name)}.vcf`;
-
-  document.body.appendChild(link);
+    `${name.replace(/\s+/g, "_")}.vcf`;
 
   link.click();
-
-  document.body.removeChild(link);
-
 }
 
 
 // ======================
-// SEND CUSTOMER TEXT
+// CUSTOMER CONFIRMATION
 // ======================
 function sendConfirmation() {
 
@@ -707,42 +485,27 @@ function sendConfirmation() {
   ])) return;
 
   const name =
-    document
-      .getElementById("name")
-      .value;
+    document.getElementById("name").value;
 
   const flight =
-    document
-      .getElementById("flight")
-      .value;
+    document.getElementById("flight").value;
 
   const phone =
-    document
-      .getElementById("phone")
-      .value;
+    document.getElementById("phone").value;
 
   const pickup =
-    document
-      .getElementById("pickup")
-      .value;
+    document.getElementById("pickup").value;
 
   const dropoff =
-    document
-      .getElementById("dropoff")
-      .value;
+    document.getElementById("dropoff").value;
 
   const date =
-    document
-      .getElementById("date")
-      .value;
+    document.getElementById("date").value;
 
   const time =
-    document
-      .getElementById("time")
-      .value;
+    document.getElementById("time").value;
 
-  const msg =
-`Hi ${name},
+  const msg = `Hi ${name},
 
 Your ride with Mike's Transport Service is confirmed.
 
@@ -759,8 +522,7 @@ Time: ${time}
 Thank you for choosing Mike's Transport Service!`;
 
   window.location.href =
-    `sms:${phone}&body=${encodeURIComponent(msg)}`;
-
+    `sms:${phone}?body=${encodeURIComponent(msg)}`;
 }
 
 
@@ -770,62 +532,38 @@ Thank you for choosing Mike's Transport Service!`;
 function assignDriver() {
 
   const driver =
-    document
-      .getElementById("driver")
-      .value;
+    document.getElementById("driver").value;
 
   if (!driver) {
-
-    alert(
-      "Select a driver first"
-    );
-
+    alert("Select a driver first");
     return;
-
   }
 
-  const [
-    driverName,
-    driverPhone
-  ] = driver.split("|");
+  const [driverName, driverPhone] =
+    driver.split("|");
 
   const customer =
-    document
-      .getElementById("name")
-      .value;
+    document.getElementById("name").value;
 
   const flight =
-    document
-      .getElementById("flight")
-      .value;
+    document.getElementById("flight").value;
 
   const pickup =
-    document
-      .getElementById("pickup")
-      .value;
+    document.getElementById("pickup").value;
 
   const dropoff =
-    document
-      .getElementById("dropoff")
-      .value;
+    document.getElementById("dropoff").value;
 
   const date =
-    document
-      .getElementById("date")
-      .value;
+    document.getElementById("date").value;
 
   const time =
-    document
-      .getElementById("time")
-      .value;
+    document.getElementById("time").value;
 
   const comments =
-    document
-      .getElementById("comments")
-      .value;
+    document.getElementById("comments").value;
 
-  const msg =
-`NEW DISPATCH
+  const msg = `NEW DISPATCH
 
 Driver: ${driverName}
 
@@ -844,8 +582,7 @@ Time: ${time}
 Comments: ${comments || "None"}`;
 
   window.location.href =
-    `sms:${driverPhone}&body=${encodeURIComponent(msg)}`;
-
+    `sms:${driverPhone}?body=${encodeURIComponent(msg)}`;
 }
 
 
@@ -855,18 +592,11 @@ Comments: ${comments || "None"}`;
 function callDriver() {
 
   const driver =
-    document
-      .getElementById("driver")
-      .value;
+    document.getElementById("driver").value;
 
   if (!driver) {
-
-    alert(
-      "Select a driver"
-    );
-
+    alert("Select a driver");
     return;
-
   }
 
   const phone =
@@ -874,7 +604,6 @@ function callDriver() {
 
   window.location.href =
     `tel:${phone}`;
-
 }
 
 
@@ -884,23 +613,15 @@ function callDriver() {
 function callCustomer() {
 
   const phone =
-    document
-      .getElementById("phone")
-      .value;
+    document.getElementById("phone").value;
 
   if (!phone) {
-
-    alert(
-      "Missing customer phone number"
-    );
-
+    alert("Missing customer phone number");
     return;
-
   }
 
   window.location.href =
     `tel:${phone}`;
-
 }
 
 
@@ -910,18 +631,11 @@ function callCustomer() {
 function openWaze() {
 
   const pickup =
-    document
-      .getElementById("pickup")
-      .value;
+    document.getElementById("pickup").value;
 
   if (!pickup) {
-
-    alert(
-      "Missing pickup address"
-    );
-
+    alert("Missing pickup address");
     return;
-
   }
 
   const wazeURL =
@@ -931,7 +645,6 @@ function openWaze() {
     wazeURL,
     "_blank"
   );
-
 }
 
 
@@ -942,25 +655,14 @@ function dispatchAll() {
 
   if (!requireFields([
     "name",
-    "phone",
-    "date",
-    "time"
+    "phone"
   ])) return;
 
   downloadICS();
 
-  setTimeout(() => {
+  downloadVCF();
 
-    downloadVCF();
-
-  }, 500);
-
-  setTimeout(() => {
-
-    sendConfirmation();
-
-  }, 1000);
-
+  sendConfirmation();
 }
 
 </script>

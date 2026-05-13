@@ -23,10 +23,10 @@
   }
 
   body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 14px;
     background: #f5f5f5;
+    font-family: Arial, sans-serif;
     color: #111;
   }
 
@@ -51,8 +51,8 @@
 
   .header h2 {
     margin-top: 6px;
-    font-size: 18px;
     color: #666;
+    font-size: 18px;
     font-weight: normal;
   }
 
@@ -433,14 +433,7 @@ function formatICSDate(date, time) {
 
 
 // ======================
-// MEMORY CLEANUP
-// ======================
-let currentICSUrl = null;
-let currentVCFUrl = null;
-
-
-// ======================
-// DOWNLOAD ICS
+// ADD TO CALENDAR
 // ======================
 function downloadICS() {
 
@@ -533,33 +526,21 @@ STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR`;
 
-  const blob =
-    new Blob(
-      [ics],
-      {
-        type:
-        "text/calendar;charset=utf-8"
-      }
-    );
+  // FIX FOR IPHONE SAFARI
+  const encodedICS =
+    encodeURIComponent(ics);
 
-  if (currentICSUrl) {
-    URL.revokeObjectURL(
-      currentICSUrl
-    );
-  }
-
-  currentICSUrl =
-    URL.createObjectURL(blob);
+  const fileName =
+    `${safeFileName(name)}-${date}-${time}.ics`;
 
   const link =
     document.createElement("a");
 
   link.href =
-    currentICSUrl;
+    `data:text/calendar;charset=utf8,${encodedICS}`;
 
-  // KEEP CUSTOM FILENAME
   link.download =
-    `${safeFileName(name)}-${date}-${time}.ics`;
+    fileName;
 
   document.body.appendChild(link);
 
@@ -567,28 +548,11 @@ END:VCALENDAR`;
 
   document.body.removeChild(link);
 
-  // IPHONE AUTO OPEN
-  const isiPhone =
-    /iPhone|iPad|iPod/i.test(
-      navigator.userAgent
-    );
-
-  if (isiPhone) {
-
-    setTimeout(() => {
-
-      window.location.href =
-        currentICSUrl;
-
-    }, 500);
-
-  }
-
 }
 
 
 // ======================
-// DOWNLOAD VCF
+// SAVE CONTACT
 // ======================
 function downloadVCF() {
 
@@ -609,14 +573,6 @@ function downloadVCF() {
       .value
       .trim();
 
-  if (currentVCFUrl) {
-
-    URL.revokeObjectURL(
-      currentVCFUrl
-    );
-
-  }
-
   const vcf =
 `BEGIN:VCARD
 VERSION:3.0
@@ -624,22 +580,14 @@ FN:${name}
 TEL;TYPE=CELL:${phone}
 END:VCARD`;
 
-  const blob =
-    new Blob(
-      [vcf],
-      {
-        type: "text/vcard"
-      }
-    );
-
-  currentVCFUrl =
-    URL.createObjectURL(blob);
+  const encodedVCF =
+    encodeURIComponent(vcf);
 
   const link =
     document.createElement("a");
 
   link.href =
-    currentVCFUrl;
+    `data:text/vcard;charset=utf8,${encodedVCF}`;
 
   link.download =
     `${safeFileName(name)}.vcf`;
@@ -654,7 +602,7 @@ END:VCARD`;
 
 
 // ======================
-// CUSTOMER CONFIRMATION
+// SEND CUSTOMER TEXT
 // ======================
 function sendConfirmation() {
 

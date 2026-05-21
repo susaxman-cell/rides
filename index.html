@@ -3,19 +3,49 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="format-detection" content="telephone=no">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+  name="format-detection"
+  content="telephone=no"
+>
 
 <title>Mike's Transport Service</title>
 
 <!-- PWA -->
-<link rel="manifest" href="/dispatcher-manifest.json">
+<link
+  rel="manifest"
+  href="/dispatcher-manifest.json"
+>
 
-<meta name="theme-color" content="#111111">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Mike Dispatch">
+<meta
+  name="theme-color"
+  content="#111111"
+>
+
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black"
+>
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="Mike Dispatch"
+>
 
 <style>
 
@@ -202,7 +232,10 @@ button:active {
       Unlock Dashboard
     </button>
 
-    <div id="pinError" class="pin-error">
+    <div
+      id="pinError"
+      class="pin-error"
+    >
       Incorrect PIN
     </div>
 
@@ -224,28 +257,37 @@ button:active {
 
 </div>
 
-<!-- ONLINE STATUS -->
-<div id="connectionStatus" class="status-bar"></div>
+<!-- STATUS -->
+<div
+  id="connectionStatus"
+  class="status-bar">
+</div>
 
 <div class="section-title">
 Ride Details
 </div>
 
-<label>Customer Name</label>
+<label>
+Customer Name
+</label>
 
 <input
   id="name"
   placeholder="Customer Name"
 >
 
-<label>Flight Number</label>
+<label>
+Flight Number
+</label>
 
 <input
   id="flight"
   placeholder="Flight Number"
 >
 
-<label>Customer Phone</label>
+<label>
+Customer Phone
+</label>
 
 <input
   id="phone"
@@ -255,35 +297,45 @@ Ride Details
   placeholder="Customer Phone"
 >
 
-<label>Pickup Address</label>
+<label>
+Pickup Address
+</label>
 
 <input
   id="pickup"
   placeholder="Pickup Address"
 >
 
-<label>Drop-off Address</label>
+<label>
+Drop-off Address
+</label>
 
 <input
   id="dropoff"
   placeholder="Drop-off Address"
 >
 
-<label>Date</label>
+<label>
+Date
+</label>
 
 <input
   id="date"
   type="date"
 >
 
-<label>Time</label>
+<label>
+Time
+</label>
 
 <input
   id="time"
   type="time"
 >
 
-<label>Assign Driver</label>
+<label>
+Assign Driver
+</label>
 
 <select id="driverPhone">
 
@@ -313,7 +365,9 @@ Ride Details
 
 </select>
 
-<label>Driver Instructions</label>
+<label>
+Driver Instructions
+</label>
 
 <textarea
   id="driverComments"
@@ -327,12 +381,14 @@ Ride Details
   0 / 200
 </div>
 
-<label>Customer Comments</label>
+<label>
+Customer Comments
+</label>
 
 <textarea
   id="customerComments"
   maxlength="200"
-  placeholder="Comments to customer (200 max)">
+  placeholder="Comments to customer">
 </textarea>
 
 <div
@@ -345,7 +401,9 @@ Ride Details
 Dispatcher Actions
 </div>
 
-<label>Load Test Ride</label>
+<label>
+Load Test Ride
+</label>
 
 <button onclick="loadTestRide()">
 🧪 Load Test Ride
@@ -439,8 +497,7 @@ if ("wakeLock" in navigator) {
 // ======================
 // DISPATCHER PIN
 // ======================
-const DISPATCHER_PIN =
-  atob("MjQ2OA==");
+const DISPATCHER_PIN = "2468";
 
 function unlockDashboard() {
 
@@ -548,7 +605,7 @@ function startActivityTracking() {
 }
 
 // ======================
-// CONNECTION STATUS
+// ONLINE STATUS
 // ======================
 function updateConnectionStatus() {
 
@@ -631,7 +688,7 @@ document.getElementById(
 );
 
 // ======================
-// FORM VALIDATION
+// VALIDATION
 // ======================
 function validateRideForm() {
 
@@ -647,9 +704,9 @@ function validateRideForm() {
   for (const id of requiredFields) {
 
     const value =
-      document.getElementById(id)
-      .value
-      .trim();
+      document.getElementById(
+        id
+      ).value.trim();
 
     if (!value) {
 
@@ -724,7 +781,7 @@ function safeParts() {
 }
 
 // ======================
-// DATE FORMATTING
+// DATE FORMAT
 // ======================
 function format(date, time) {
 
@@ -782,7 +839,7 @@ function plusHour(date, time) {
 }
 
 // ======================
-// CALENDAR
+// GOOGLE CALENDAR
 // ======================
 function processCalendarEvent() {
 
@@ -846,7 +903,7 @@ ${dropoff}`;
 }
 
 // ======================
-// ICS DOWNLOAD
+// DOWNLOAD ICS
 // ======================
 function downloadICS() {
 
@@ -912,7 +969,9 @@ END:VCALENDAR`;
     safeParts();
 
   const link =
-    document.createElement("a");
+    document.createElement(
+      "a"
+    );
 
   link.href =
     URL.createObjectURL(blob);
@@ -1034,20 +1093,16 @@ Pickup:
 ${pickup}
 
 Pickup Navigation:
-Waze:
 ${wazePickup}
 
-Google Maps:
 ${googlePickup}
 
 Drop-off:
 ${dropoff}
 
 Drop-off Navigation:
-Waze:
 ${wazeDropoff}
 
-Google Maps:
 ${googleDropoff}
 
 Date:
@@ -1059,10 +1114,10 @@ ${time}
 Instructions:
 ${instructions}
 
-Mike's Transport Service`;
+Assigned Driver`;
 
   window.location.href =
-`sms:${driver}&body=${encodeURIComponent(message)}`;
+`sms:${driver}?body=${encodeURIComponent(message)}`;
 }
 
 // ======================
@@ -1139,10 +1194,10 @@ ${time}
 Comments:
 ${customerComments}
 
-Thank you for choosing Mike's Transport Service.`;
+Thank you.`;
 
   window.location.href =
-`sms:${phone}&body=${encodeURIComponent(message)}`;
+`sms:${phone}?body=${encodeURIComponent(message)}`;
 }
 
 // ======================
@@ -1177,7 +1232,9 @@ END:VCARD`;
     );
 
   const link =
-    document.createElement("a");
+    document.createElement(
+      "a"
+    );
 
   link.href =
     URL.createObjectURL(blob);
@@ -1192,6 +1249,22 @@ END:VCARD`;
 // LOAD TEST RIDE
 // ======================
 function loadTestRide() {
+
+  const today =
+    new Date();
+
+  const yyyy =
+    today.getFullYear();
+
+  const mm =
+    String(
+      today.getMonth() + 1
+    ).padStart(2, "0");
+
+  const dd =
+    String(
+      today.getDate()
+    ).padStart(2, "0");
 
   document.getElementById(
     "name"
@@ -1215,22 +1288,6 @@ function loadTestRide() {
   ).value =
 "1260 May River Rd, Bluffton SC";
 
-  const today =
-    new Date();
-
-  const yyyy =
-    today.getFullYear();
-
-  const mm =
-    String(
-      today.getMonth() + 1
-    ).padStart(2, "0");
-
-  const dd =
-    String(
-      today.getDate()
-    ).padStart(2, "0");
-
   document.getElementById(
     "date"
   ).value =
@@ -1247,12 +1304,12 @@ function loadTestRide() {
   document.getElementById(
     ""
   ).value =
-"Customer arriving at baggage claim.";
+"";
 
   document.getElementById(
-    "customer Comments Here"
+    ""
   ).value =
-"";
+"Driver will text upon arrival.";
 
   document.getElementById(
     "driverCount"
@@ -1263,6 +1320,10 @@ function loadTestRide() {
     "customerCount"
   ).innerText =
 "32 / 200";
+
+  alert(
+    "Test ride loaded successfully."
+  );
 }
 
 // ======================
@@ -1309,9 +1370,17 @@ function dispatchAll() {
 
   downloadVCF();
 
-  textDriver();
+  setTimeout(() => {
 
-  sendConfirmation();
+    textDriver();
+
+  }, 500);
+
+  setTimeout(() => {
+
+    sendConfirmation();
+
+  }, 1500);
 }
 
 </script>

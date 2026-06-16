@@ -1,2 +1,2 @@
-# rides
-Repository for Dispatcher Dashboard
+# car service
+Repository for Car Service Dispatcher Dashboard

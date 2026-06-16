@@ -14,7 +14,7 @@
   content="telephone=no"
 >
 
-<title>Mike's Transport Service</title>
+<title>Triet's Car Service</title>
 
 <!-- PWA -->
 <link
@@ -44,7 +44,7 @@
 
 <meta
   name="apple-mobile-web-app-title"
-  content="Mike Dispatch"
+  content="Triet Dispatch"
 >
 
 <style>
@@ -154,7 +154,6 @@ button:active {
   margin-top: 4px;
 }
 
-/* PIN SCREEN */
 #pinScreen {
   position: fixed;
   top: 0;
@@ -208,7 +207,6 @@ button:active {
 
 <body>
 
-<!-- PIN LOCK -->
 <div id="pinScreen">
 
   <div class="pin-box">
@@ -248,7 +246,7 @@ button:active {
 <div class="header">
 
   <h1>
-    Mike's Transport Service
+    Triet's Car Service
   </h1>
 
   <h2>
@@ -257,7 +255,6 @@ button:active {
 
 </div>
 
-<!-- STATUS -->
 <div
   id="connectionStatus"
   class="status-bar">
@@ -339,29 +336,37 @@ Assign Driver
 
 <select id="driverPhone">
 
-  <option value="">
-    Select Driver
-  </option>
+<option value="">Select Driver</option>
 
-  <option value="9124014964">
-    Mike
-  </option>
+<option value="9126617213"
+        data-email="triet1991@gmail.com">
+Triet
+</option>
 
-  <option value="5712765400">
-    Marcus
-  </option>
+<option value="5712765400"
+        data-email="susaxman@gmail.com">
+Marcus
+</option>
 
-  <option value="7049687843">
-    Bill
-  </option>
+<option value="7049687843"
+        data-email="barny1120@gmail.com">
+Bill
+</option>
 
-  <option value="9123417484">
-    Rod
-  </option>
+<option value="9123417484"
+        data-email="rod.madison@gmail.com">
+Rod
+</option>
 
-  <option value="4406548497">
-    Taylor
-  </option>
+<option value="4406548497"
+        data-email="taylynn22296@gmail.com">
+Taylor
+</option>
+
+<option value="4124001855"
+        data-email="lostabryla@aol.com">
+Tom
+</option>
 
 </select>
 
@@ -413,16 +418,20 @@ Load Test Ride
 📞 Call Customer
 </button>
 
+<button onclick="processCalendarEvent()">
+📅 Add to Google Calendar + Download .ICS
+</button>
+
 <button onclick="textDriver()">
 🚕 Dispatch Driver
 </button>
 
-<button onclick="sendConfirmation()">
-📩 Send Customer Confirmation
+<button onclick="createDriverInvite()">
+📅 Create Driver Calendar Invite
 </button>
 
-<button onclick="processCalendarEvent()">
-📅 Add to Google Calendar + Download .ICS
+<button onclick="sendConfirmation()">
+📩 Send Customer Confirmation
 </button>
 
 <button onclick="downloadVCF()">
@@ -444,6 +453,14 @@ Optimized for iPhone, Android, and Desktop.
 </div>
 
 <script>
+
+function createDriverInvite(){
+
+  if(!validateRideForm()) return;
+
+  addGoogle();
+
+}
 
 // ======================
 // SERVICE WORKER
@@ -497,7 +514,7 @@ if ("wakeLock" in navigator) {
 // ======================
 // DISPATCHER PIN
 // ======================
-const DISPATCHER_PIN = "2468";
+const DISPATCHER_PIN = "2708";
 
 function unlockDashboard() {
 
@@ -735,6 +752,11 @@ function callCustomer() {
       "phone"
     ).value;
 
+  const flight =
+  document.getElementById(
+    "flight"
+  ).value || "N/A";
+
   if (!phone) {
 
     alert(
@@ -758,6 +780,11 @@ function safeParts() {
       "name"
     ).value || "ride";
 
+  const flight =
+  document.getElementById(
+    "flight"
+  ).value || "N/A";
+
   const date =
     document.getElementById(
       "date"
@@ -769,15 +796,11 @@ function safeParts() {
     ).value || "no-time";
 
   return {
-
-    name:
-      name.replace(/\s+/g, "_"),
-
-    date,
-
-    time:
-      time.replace(/:/g, "-")
-  };
+  name: name.replace(/\s+/g, "_"),
+  flight: flight.replace(/\s+/g, "_"),
+  date,
+  time: time.replace(/:/g, "-")
+};
 }
 
 // ======================
@@ -857,7 +880,21 @@ function addGoogle() {
       "name"
     ).value;
 
-  const phone =
+  const driverSelect =
+  document.getElementById("driverPhone");
+
+  const driverEmail =
+  driverSelect.options[
+  driverSelect.selectedIndex
+  ].dataset.email || "";   
+  
+
+  const flight =
+  document.getElementById(
+    "flight"
+  ).value || "N/A"; 
+
+ const phone =
     document.getElementById(
       "phone"
     ).value;
@@ -887,6 +924,8 @@ function addGoogle() {
 
 Phone: ${phone}
 
+Flight: ${flight} | Date: ${date} | Time: ${time}
+
 Pickup:
 ${pickup}
 
@@ -894,8 +933,14 @@ Drop-off:
 ${dropoff}`;
 
   const url =
-`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Ride for " + name)}&dates=${format(date,time)}/${plusHour(date,time)}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(pickup)}`;
+`https://calendar.google.com/calendar/render?action=TEMPLATE
+&text=${encodeURIComponent("Ride for " + name + " - Flight " + flight)}
+&dates=${format(date,time)}/${plusHour(date,time)}
+&details=${encodeURIComponent(details)}
+&location=${encodeURIComponent(pickup)}
+&add=${encodeURIComponent(driverEmail)}`;
 
+  
   window.open(
     url,
     "_blank"
@@ -916,6 +961,11 @@ function downloadICS() {
     document.getElementById(
       "phone"
     ).value;
+
+  const flight =
+  document.getElementById(
+    "flight"
+  ).value || "N/A";  
 
   const pickup =
     document.getElementById(
@@ -946,12 +996,14 @@ function downloadICS() {
   const ics =
 `BEGIN:VCALENDAR
 VERSION:2.0
+METHOD:PUBLISH
 BEGIN:VEVENT
+UID:${Date.now()}@Trietscarservice.com
 DTSTAMP:${now}
 DTSTART:${format(date,time)}
 DTEND:${plusHour(date,time)}
-SUMMARY:Ride for ${name}
-DESCRIPTION:Phone: ${phone}\\nPickup: ${pickup}\\nDrop-off: ${dropoff}
+SUMMARY:Ride for ${name} - Flight ${flight}
+DESCRIPTION:Phone: ${phone}\\nFlight: ${flight} | Date: ${date} | Time: ${time}\\nPickup: ${pickup}\\nDrop-off: ${dropoff}
 LOCATION:${pickup}
 END:VEVENT
 END:VCALENDAR`;
@@ -977,7 +1029,7 @@ END:VCALENDAR`;
     URL.createObjectURL(blob);
 
   link.download =
-`${p.name}-${p.date}-${p.time}.ics`;
+`${p.name}-${p.flight}-${p.date}-${p.time}.ics`;
 
   link.click();
 }
@@ -1052,29 +1104,22 @@ function textDriver() {
       "driverComments"
     ).value || "None";
 
-  const pickupEncoded =
-    encodeURIComponent(
-      pickup
-    );
+  const details =
+`Customer: ${name}
 
-  const dropoffEncoded =
-    encodeURIComponent(
-      dropoff
-    );
+Phone: ${phone}
 
-  const wazePickup =
-`https://waze.com/ul?q=${pickupEncoded}`;
+Pickup:
+${pickup}
 
-  const googlePickup =
-`https://www.google.com/maps/search/?api=1&query=${pickupEncoded}`;
+Drop-off:
+${dropoff}
 
-  const wazeDropoff =
-`https://waze.com/ul?q=${dropoffEncoded}`;
+Driver:
+${driverName}`;
 
-  const googleDropoff =
-`https://www.google.com/maps/search/?api=1&query=${dropoffEncoded}`;
-
-  const message =
+  
+const message =
 `🚕 DRIVER ASSIGNMENT
 
 Driver:
@@ -1089,32 +1134,23 @@ ${phone}
 Flight:
 ${flight}
 
-Pickup:
-${pickup}
-
-Pickup Navigation:
-${wazePickup}
-
-${googlePickup}
-
-Drop-off:
-${dropoff}
-
-Drop-off Navigation:
-${wazeDropoff}
-
-${googleDropoff}
-
 Date:
 ${date}
 
 Time:
 ${time}
 
+Pickup:
+${pickup}
+
+Drop-off:
+${dropoff}
+
 Instructions:
 ${instructions}
 
-Assigned Driver`;
+Assigned Driver:
+${driverName}`;
 
   window.location.href =
 `sms:${driver}?body=${encodeURIComponent(message)}`;
@@ -1138,38 +1174,62 @@ function sendConfirmation() {
     ).value;
 
   const pickup =
-    document.getElementById(
-      "pickup"
-    ).value;
+  document.getElementById(
+    "pickup"
+  ).value;
+
+  
+  const date =
+  document.getElementById(
+    "date"
+  ).value;
+
+  const time =
+  document.getElementById(
+    "time"
+  ).value;
+
+ const flight =
+document.getElementById(
+  "flight"
+).value || "N/A";
+
+const tripInfo = `
+
+Flight:
+${flight}
+
+Date:
+${date}
+
+Time:
+${time}
+`;
 
   const dropoff =
     document.getElementById(
       "dropoff"
     ).value;
 
-  const date =
-    document.getElementById(
-      "date"
-    ).value;
-
-  const time =
-    document.getElementById(
-      "time"
-    ).value;
+  
 
   const customerComments =
     document.getElementById(
       "customerComments"
     ).value || "None";
 
-  const driverName =
-    document.getElementById(
-      "driverPhone"
-    ).options[
-      document.getElementById(
-        "driverPhone"
-      ).selectedIndex
-    ].text || "Assigned Driver";
+  const driverSelect =
+  document.getElementById(
+    "driverPhone"
+  );
+
+const driverName =
+  driverSelect.options[
+    driverSelect.selectedIndex
+  ].text || "Assigned Driver";
+
+const driverPhone =
+  driverSelect.value || "Not Available";
 
   const message =
 `Hi ${name},
@@ -1179,17 +1239,18 @@ Your ride is confirmed.
 Driver:
 ${driverName}
 
+Driver Phone:
+${driverPhone.length === 10
+  ? `(${driverPhone.slice(0,3)}) ${driverPhone.slice(3,6)}-${driverPhone.slice(6)}`
+  : driverPhone}
+
+${tripInfo}
+
 Pickup:
 ${pickup}
 
 Drop-off:
 ${dropoff}
-
-Date:
-${date}
-
-Time:
-${time}
 
 Comments:
 ${customerComments}
@@ -1276,7 +1337,7 @@ function loadTestRide() {
 
   document.getElementById(
     "phone"
-  ).value = "5712765400";
+  ).value = "9126617213";
 
   document.getElementById(
     "pickup"
@@ -1302,24 +1363,24 @@ function loadTestRide() {
   ).selectedIndex = 1;
 
   document.getElementById(
-    ""
+    "driverComments"
   ).value =
 "";
 
   document.getElementById(
-    ""
+    "customerComments"
   ).value =
-"Driver will text upon arrival.";
+"";
 
   document.getElementById(
     "driverCount"
   ).innerText =
-"37 / 200";
+`${document.getElementById("driverComments").value.length} / 200`;
 
   document.getElementById(
     "customerCount"
   ).innerText =
-"32 / 200";
+`${document.getElementById("customerComments").value.length} / 200`;
 
   alert(
     "Test ride loaded successfully."

@@ -442,10 +442,6 @@ Load Test Ride
 🗑 Clear Ride Form
 </button>
 
-<button onclick="dispatchAll()">
-🚀 Dispatch All
-</button>
-
 <div class="notice">
 Optimized for iPhone, Android, and Desktop.
 </div>
@@ -1418,30 +1414,6 @@ function clearForm() {
     "customerCount"
   ).innerText =
 "0 / 200";
-}
-
-// ======================
-// DISPATCH ALL
-// ======================
-function dispatchAll() {
-
-  if (!validateRideForm()) return;
-
-  processCalendarEvent();
-
-  downloadVCF();
-
-  setTimeout(() => {
-
-    textDriver();
-
-  }, 500);
-
-  setTimeout(() => {
-
-    sendConfirmation();
-
-  }, 1500);
 }
 
 </script>
